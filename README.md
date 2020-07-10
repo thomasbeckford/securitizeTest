@@ -10,15 +10,15 @@
 
 1. Client side: 
 
-  yarn install
-  yarn start
+  ``yarn install``
+  ``yarn start``
   
 2. Server side:
 
   Check you set up .env file with .env.example variables
   
-  yarn
-  yarn run watch
+  ``yarn``
+  ``yarn run watch``
   
   
 Things that can be improved:
