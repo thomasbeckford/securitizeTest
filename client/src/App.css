@@ -1,0 +1,15 @@
+.cards-body-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-body-component {
+    background-color: #f8f9fa !important;
+    width: 48%;
+    height: 10em;
+}
+
+.alert {
+    display: flex;
+    flex-direction: row;
+}
