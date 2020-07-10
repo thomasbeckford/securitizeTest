@@ -20,6 +20,8 @@
   
   ``yarn``
   
+  ``yarn run tsc``
+  
   ``yarn run watch``
   
   
