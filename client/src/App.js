@@ -74,7 +74,7 @@ export default function App() {
                             />
                         ) : (
                                 <div style={{ marginTop: '1em' }}>
-                                    <Card.Text style={{ fontWeight: 'bold' }}>{balance ? balance : 10000}</Card.Text>
+                                    <Card.Text style={{ fontWeight: 'bold' }}>{balance ? balance : 'Loading balance...'}</Card.Text>
                                 </div>
                             )}
                     </Form.Group>
@@ -92,7 +92,7 @@ export default function App() {
                         </Form.Control>
                     </Form.Group>
                     <Card.Text style={{ fontWeight: 'bold' }}>
-                        {selectedCurrency === 'EUR' ? '€ ' : '$ '}
+                        {selectedCurrency === 'EUR' ? '€ ' : selectedCurrency === 'USD' ? '$ ' : 'Loading rate...'}
                         {exchangeRates && balance ? (balance * exchangeRates[selectedCurrency]).toFixed(2) : null}
                     </Card.Text>
                 </Card>
