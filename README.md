@@ -23,7 +23,7 @@
   ``yarn run watch``
   
   
-Things that can be improved:
+## Things that can be improved:
 
 We can add a loader on endpoint calls.
 
