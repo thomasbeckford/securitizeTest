@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Form, Alert, Card } from 'react-bootstrap'
+import { Container, Form, Card } from 'react-bootstrap'
 import PencilSquare from './Icons/PencilSquare.svg'
 import Check from './Icons/Check.svg'
 import Cancel from './Icons/Cancel.svg'
-import WarningAlert from './Icons/WarningAlert.svg'
+import AlertWarningComponent from './AlertWarningComponent'
 import axios from 'axios'
 import './App.css'
+import { propTypes } from 'react-bootstrap/esm/Image'
 
 function App() {
     const [walletInfo, setWalletInfo] = useState(null)
@@ -26,14 +27,6 @@ function App() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('http://localhost:3001/getwalletinfo')
-            setWalletInfo(response)
-        }
-        fetchData()
-    }, [])
-
-    useEffect(() => {
-        const fetchData = async () => {
             const response = await axios.get('http://localhost:3001/getcurrencyexchangerates')
             setExchangeRates(response.data)
             setSelectedCurrency(Object.keys(response.data)[0])
@@ -48,12 +41,7 @@ function App() {
 
     return (
         <Container className="p-3">
-            {walletInfo ? (
-                <Alert variant="danger">
-                    <img style={{ marginRight: '5px' }} src={WarningAlert} alt="warning" />
-                    Wallet is old!
-                </Alert>
-            ) : null}
+            <AlertWarningComponent walletInfo={walletInfo} setWalletInfo={setWalletInfo} />
             <div className="cards-body-container">
                 <Card className="card-body-component" body>
                     <div style={{ textAlign: 'right' }}>
