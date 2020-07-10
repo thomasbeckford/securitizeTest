@@ -11,7 +11,7 @@ function App() {
     const [walletInfo, setWalletInfo] = useState(null)
     const [exchangeRates, setExchangeRates] = useState(null)
     const [balance, setBalance] = useState(null)
-    const [selectedCurrenty, setSelectedCurrency] = useState(null)
+    const [selectedCurrency, setSelectedCurrency] = useState(null)
     const [editableInput, setEditableInput] = useState(false)
     const [currentBalance, setCurrentBalance] = useState(null)
 
@@ -94,7 +94,8 @@ function App() {
                         </Form.Control>
                     </Form.Group>
                     <Card.Text style={{ fontWeight: 'bold' }}>
-                        $ {exchangeRates && balance ? (balance * exchangeRates[selectedCurrenty]).toFixed(2) : null}
+                        {selectedCurrency == 'EUR' ? '€ ' : '$ ' }
+                        {exchangeRates && balance ? (balance * exchangeRates[selectedCurrency]).toFixed(2) : null}
                     </Card.Text>
                 </Card>
             </div>
