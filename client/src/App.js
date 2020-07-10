@@ -56,7 +56,7 @@ function App() {
                     <Form.Group controlId="formBasicEmail">
                         {editableInput ? (
                             <Form.Control
-                                type="text"
+                                type="number"
                                 onChange={(e) => setCurrentBalance(e.target.value)}
                                 placeholder="Set new ethereum value"
                                 defaultValue={balance}
