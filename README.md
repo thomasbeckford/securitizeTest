@@ -20,10 +20,14 @@
   
   ``yarn``
   
+  ``yarn run tsc``
+  
   ``yarn run watch``
   
   
 ## Things that can be improved:
+
+We can add husky on pre-commit
 
 We can add a loader on endpoint calls.
 
