@@ -6,7 +6,6 @@ import Cancel from './Icons/Cancel.svg'
 import AlertWarningComponent from './AlertWarningComponent'
 import axios from 'axios'
 import './App.css'
-import { propTypes } from 'react-bootstrap/esm/Image'
 
 function App() {
     const [walletInfo, setWalletInfo] = useState(null)
@@ -82,7 +81,7 @@ function App() {
                         </Form.Control>
                     </Form.Group>
                     <Card.Text style={{ fontWeight: 'bold' }}>
-                        {selectedCurrency == 'EUR' ? '€ ' : '$ ' }
+                        {selectedCurrency === 'EUR' ? '€ ' : '$ ' }
                         {exchangeRates && balance ? (balance * exchangeRates[selectedCurrency]).toFixed(2) : null}
                     </Card.Text>
                 </Card>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import WarningAlert from './Icons/WarningAlert.svg'
 import { Alert } from 'react-bootstrap'
 import axios from 'axios'
@@ -11,7 +11,7 @@ export default function AlertWarningComponent(props) {
             props.setWalletInfo(response)
         }
         fetchData()
-    }, [])
+    }, [props])
 
     return (
             props.walletInfo? (
