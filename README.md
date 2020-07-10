@@ -25,6 +25,8 @@
   
 ## Things that can be improved:
 
+We can add husky on pre-commit
+
 We can add a loader on endpoint calls.
 
 We can use Material UI for styling.
