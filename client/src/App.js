@@ -7,7 +7,7 @@ import AlertWarningComponent from './AlertWarningComponent'
 import axios from 'axios'
 import './App.css'
 
-function App() {
+export default function App() {
     const [walletInfo, setWalletInfo] = useState(null)
     const [exchangeRates, setExchangeRates] = useState(null)
     const [balance, setBalance] = useState(null)
@@ -19,7 +19,18 @@ function App() {
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get('http://localhost:3001/getbalance')
-            setBalance(response.data.result?.toFixed(2) || 10000) // We set || 10000 because API has calls restricted.
+            setBalance(response.data.balance?.toFixed(2))
+            if (response.data.status === 0) {
+                alert("Please wait 1-3 seconds and load again the site")
+            }
+        }
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get('http://localhost:3001/getwalletinfo')
+            return setWalletInfo(response)
         }
         fetchData()
     }, [])
@@ -50,22 +61,22 @@ function App() {
                                 <img src={Cancel} alt="cancel" onClick={() => setEditableInput(false)} />
                             </div>
                         ) : (
-                            <img src={PencilSquare} alt="pencilSquare" onClick={() => setEditableInput(true)} />
-                        )}
+                                <img src={PencilSquare} alt="pencilSquare" onClick={() => setEditableInput(true)} />
+                            )}
                     </div>
                     <Form.Group controlId="formBasicEmail">
                         {editableInput ? (
                             <Form.Control
-                                type="text"
+                                type="number"
                                 onChange={(e) => setCurrentBalance(e.target.value)}
                                 placeholder="Set new ethereum value"
                                 defaultValue={balance}
                             />
                         ) : (
-                            <div style={{ marginTop: '1em' }}>
-                                <Card.Text style={{ fontWeight: 'bold' }}>{balance ? balance : 10000}</Card.Text>
-                            </div>
-                        )}
+                                <div style={{ marginTop: '1em' }}>
+                                    <Card.Text style={{ fontWeight: 'bold' }}>{balance ? balance : 10000}</Card.Text>
+                                </div>
+                            )}
                     </Form.Group>
                 </Card>
                 <Card className="card-body-component" body>
@@ -81,13 +92,14 @@ function App() {
                         </Form.Control>
                     </Form.Group>
                     <Card.Text style={{ fontWeight: 'bold' }}>
-                        {selectedCurrency === 'EUR' ? '€ ' : '$ ' }
+                        {selectedCurrency === 'EUR' ? '€ ' : '$ '}
                         {exchangeRates && balance ? (balance * exchangeRates[selectedCurrency]).toFixed(2) : null}
                     </Card.Text>
                 </Card>
             </div>
         </Container>
     )
+
 }
 
-export default App
+

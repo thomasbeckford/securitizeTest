@@ -12,18 +12,10 @@ export let getWalletInfo = async (req: Request, res: Response) => {
   const isOldWallet = new Date(oneYearBefore) > lastTransaction;
   res.send({
     isOldWallet,
+    status: body.status,
+    message: body.message,
   });
 };
-
-// export let getDollarExchangeRate = async (req: Request, res: Response) => {
-//   // Get ether USD last price endpoint: https://etherscan.io/apis#stats
-//   const response = await fetch(
-//     `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.API_KEY}`
-//   );
-//   const body = await response.json();
-//   const USD = body.result.ethusd;
-//   res.send({ USD });
-// };
 
 export let getCurrencyExchangeRates = async (req: Request, res: Response) => {
   // Get ether EUR last price endpoint : https://min-api.cryptocompare.com/
@@ -31,7 +23,7 @@ export let getCurrencyExchangeRates = async (req: Request, res: Response) => {
     `https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=EUR,USD`
   );
   const body = await response.json();
-  res.send(body);
+  if (body) res.send(body);
 };
 
 export let getBalance = async (req: Request, res: Response) => {
@@ -40,9 +32,11 @@ export let getBalance = async (req: Request, res: Response) => {
     `https://api.etherscan.io/api?module=account&action=balance&address=0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a&tag=latest&apikey=${process.env.API_KEY}`
   );
   const body = await response.json();
-  const result = body.result / 1000000000000000000; // Convert response from Wei to Ether
+  const balance = body.result / 1000000000000000000; // Convert response from Wei to Ether
   // Sometimes api do not respond due to account limit requests.
   res.send({
-    result,
+    balance,
+    status: body.status,
+    message: body.message,
   });
 };
