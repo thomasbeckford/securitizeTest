@@ -40,5 +40,7 @@
 
  - We can make components for each card.
  
+ - We can add JSDoc
+ 
 
   
