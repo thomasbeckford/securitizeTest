@@ -6,7 +6,7 @@
   
 2.  ``yarn start``
   
-Steps to init server side:
+### Steps to init server side:
 
 1. Check you set up .env file with .env.example variables ( APIKEY )
   
