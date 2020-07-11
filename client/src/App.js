@@ -4,6 +4,7 @@ import PencilSquare from './Icons/PencilSquare.svg'
 import Check from './Icons/Check.svg'
 import Cancel from './Icons/Cancel.svg'
 import AlertWarningComponent from './AlertWarningComponent'
+import { Alert } from 'react-bootstrap'
 import axios from 'axios'
 import './App.css'
 
@@ -14,14 +15,20 @@ export default function App() {
     const [selectedCurrency, setSelectedCurrency] = useState(null)
     const [editableInput, setEditableInput] = useState(false)
     const [currentBalance, setCurrentBalance] = useState(null)
+    const [error, setError] = useState(null)
 
     // We can make this by 'fetch' too, so as not to use axios package, but I prefer using axios because looks cleaner.
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('http://localhost:3001/getbalance')
-            setBalance(response.data.balance?.toFixed(2))
-            if (response.data.status === 0) {
-                alert("Please wait 1-3 seconds and load again the site")
+            try {
+                const response = await axios.get('/getbalance')
+                if (response.data.status === '1') {
+                    setBalance(response.data.balance?.toFixed(2))
+                } else {
+                    setError(`${response.data.message}, please check your API key.`)
+                }
+            } catch (e) {
+                setError(e)
             }
         }
         fetchData()
@@ -29,17 +36,29 @@ export default function App() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('http://localhost:3001/getwalletinfo')
-            return setWalletInfo(response)
+            try {
+                const response = await axios.get('/getwalletinfo')
+                if (response.data.status === '1') {
+                    setWalletInfo(response)
+                } else {
+                    setError(`${response.data.message}, please check your API key.`)
+                }
+            } catch (e) {
+                setError(e)
+            }
         }
         fetchData()
     }, [])
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('http://localhost:3001/getcurrencyexchangerates')
-            setExchangeRates(response.data)
-            setSelectedCurrency(Object.keys(response.data)[0])
+            try {
+                const response = await axios.get('/getcurrencyexchangerates')
+                setExchangeRates(response.data)
+                setSelectedCurrency(Object.keys(response.data)[0])
+            } catch (error) {
+                setError(`Can't retrive currency rates, please try again later.`)
+            }
         }
         fetchData()
     }, [])
@@ -51,6 +70,7 @@ export default function App() {
 
     return (
         <Container className="p-3">
+            {error ? <Alert variant="danger">{error}</Alert> : null}
             <AlertWarningComponent walletInfo={walletInfo} setWalletInfo={setWalletInfo} />
             <div className="cards-body-container">
                 <Card className="card-body-component" body>
@@ -61,8 +81,8 @@ export default function App() {
                                 <img src={Cancel} alt="cancel" onClick={() => setEditableInput(false)} />
                             </div>
                         ) : (
-                                <img src={PencilSquare} alt="pencilSquare" onClick={() => setEditableInput(true)} />
-                            )}
+                            <img src={PencilSquare} alt="pencilSquare" onClick={() => setEditableInput(true)} />
+                        )}
                     </div>
                     <Form.Group controlId="formBasicEmail">
                         {editableInput ? (
@@ -73,10 +93,12 @@ export default function App() {
                                 defaultValue={balance}
                             />
                         ) : (
-                                <div style={{ marginTop: '1em' }}>
-                                    <Card.Text style={{ fontWeight: 'bold' }}>{balance ? balance : 'Loading balance...'}</Card.Text>
-                                </div>
-                            )}
+                            <div style={{ marginTop: '1em' }}>
+                                <Card.Text style={{ fontWeight: 'bold' }}>
+                                    {balance ? balance : 'Loading balance...'}
+                                </Card.Text>
+                            </div>
+                        )}
                     </Form.Group>
                 </Card>
                 <Card className="card-body-component" body>
@@ -99,7 +121,4 @@ export default function App() {
             </div>
         </Container>
     )
-
 }
-
-
