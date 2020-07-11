@@ -35,7 +35,4 @@ We can use Material UI for styling.
 
 We can make components for each card.
 
-Leave commented code in a PR is not a good practice. But I left that controller because we have another endpoint to get Dollar Rate in same API.
-
-
   
